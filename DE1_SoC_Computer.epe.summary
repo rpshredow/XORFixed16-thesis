@@ -1,0 +1,7 @@
+Early Power Estimator File Generator Status : Successful - Wed Feb 19 02:07:37 2020
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : DE1_SoC_Computer
+Top-level Entity Name : DE10_Nano_Computer
+Family : Cyclone V
+Device : 5CSEBA6U23I7
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

@@ -1,0 +1,62 @@
+module sigmoid (
+    input signed [31:0] in,
+    output signed [31:0] out
+);
+
+reg signed [31:0] result;
+reg signed [31:0] temp;
+
+always @ (in) begin
+	if( in >= 5120 )
+		out <= 32'd1024;
+	else if( in < 5120 && in >= 2432) begin
+		result = (in >> 5); // 10 - 5 ie log2(1024) - log2(32)
+		out =  result + 32'd864;
+	end
+	else if( in < 2432 && in >= 1024) begin
+		result = (in >> 10) * 13;
+		out = result + 32'd640;
+	end
+	else if( in < 1024 && in >= 0) begin
+		result = in >> 2;
+		out <= result + 32'd512;
+	end
+	else if( in < 0 && in >= -1024) begin
+		temp = -in;
+		result = temp >> 2;
+		out <= 32'd512 - result;
+	end
+	else if( in < -1024 && in >= -2432) begin
+		temp = -in;
+		result = (temp >> 10) * 13;
+		out = 32'd384 - result;
+	end
+	else if( in < -2432 && in >= -5120) begin
+		temp = -in;
+		result = (temp >> 5); // 10 - 5 ie log2(1024) - log2(32)
+		out = 32'd160 - result;
+	end
+	else if( in < -5120)
+		out <= 32'd0;
+
+end
+
+//always @ (in) begin
+//	if(in >= 32'b00000000000000000001010000000000)
+//		out <= 32'b00000000000000000000010000000000;
+//   else if(in < 32'b00000000000000000001010000000000 && in >= 32'b00000000000000000000100110000000) begin
+//      result = 32'b00000000000000000000000000100000 * in;
+//		out = result[41:10] + 32'b00000000000000000000001101100000;
+//		end
+//	else if(in < 16'b0000100110000000 && in >= 16'b0000010000000000) begin
+//		result = 16'b0000000000001101 * in;
+//		out = result[41:10] + 32'b00000000000000000000001010000000;
+//		end
+//	else if(in < 16'b0000010000000000 && in >= 16'b0000000000000000) begin
+//		result = 16'b0000000100000000 * in;
+//		out = result[41:10] + 32'b00000000000000000000001000000000;
+//		end
+//end
+
+endmodule
+
